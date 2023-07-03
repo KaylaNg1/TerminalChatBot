@@ -4,6 +4,8 @@ from nltk_utils import tokenize, stem, bag_of_words
 import numpy as np
 
 import torch
+# torch.nn is a module that contains different classes that help 
+# build neural network models
 import torch.nn as nn
 # Dataset stores the samples and their corresponding labels
 # DataLoader wraps an iterable around the Dataset to enable easy access to samples
@@ -14,12 +16,14 @@ from model import NeuralNet
 # opens the intents.json file with reading mode
 # using keyword 'with' with the open() function will automatically close the file
 # with also handles exceptions
+# f is a file object
 with open('intents.json', 'r') as f:
+    # returns JSON object as a dictionary
     intents = json.load(f)
 
 all_words = []
 tags = []
-xy = [] # hold patterns and tags 
+xy = [] # hold patterns and tags as tuple elements
 
 for intent in intents['intents']:
     tag = intent['tag']
@@ -36,8 +40,8 @@ all_words = sorted(set(all_words)) # removes duplicates by converting to set()
 tags = sorted(set(tags))
 
 # creating training lists
-x_train = []
-y_train = []
+x_train = [] # numpy list of 0s and 1s 
+y_train = [] # int list of classes
 
 # for each tuple in list xy
 for (pattern_sentence, tag) in xy:
@@ -78,12 +82,14 @@ class ChatDataset(Dataset):
 
 dataset = ChatDataset()
 # num_workers makes loading a bit faster
+# returns tuple
 train_loader = DataLoader(dataset = dataset, 
                           batch_size = batch_size, 
                           shuffle = True)
 
 # check if GPU is available:
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# returns a Tensor ( essentially a numpy array ) with specified device
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
 
 # loss and optimizer

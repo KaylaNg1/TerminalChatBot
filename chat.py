@@ -35,7 +35,9 @@ while True:
         break
 
     sentence = tokenize(sentence)
+    # returns numpy array
     x = bag_of_words(sentence, all_words)
+    # returns 1 arry, each with x.shape[0] elements
     x = x.reshape(1, x.shape[0])
     x = torch.from_numpy(x)
 
@@ -47,6 +49,7 @@ while True:
     probs = torch.softmax(output, dim = 1)
     prob = probs[0][predicted.item()]
 
+    # if the value of this tensor is greater than 0.75
     if prob.item() > 0.75:
         for intent in intents['intents']:
             if tag == intent['tag']:

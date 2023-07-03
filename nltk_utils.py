@@ -21,6 +21,7 @@ def bag_of_words(tokenized_sentence, all_words):
     """
     # stem tokenized_sentence
     tokenized_sentence = [stem(w) for w in tokenized_sentence]
+
     # can write w out numpy: 
     # bag = [0] * len(all_words)
     # for word in tokenized_sentence:
@@ -34,4 +35,5 @@ def bag_of_words(tokenized_sentence, all_words):
     for idx, w in enumerate(all_words):
         if w in tokenized_sentence:
             bag[idx] = 1
+    # returns a numpy array of 0s and 1s
     return bag
